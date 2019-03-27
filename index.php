@@ -3,7 +3,7 @@
 <title><?php echo getcwd(); ?></title>
 <style type='text/css'>
 body {
-    font-family: "Candara", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     font-size: 9pt;
     line-height: 10.5pt;
 }
@@ -23,9 +23,7 @@ div.pic {
     padding: 2px;
     text-align: center;
     margin: 2px 10px 10px 2px;
-    -moz-box-shadow: 7px 5px 5px rgb(80,80,80);    /* Firefox 3.5 */
-    -webkit-box-shadow: 7px 5px 5px rgb(80,80,80); /* Chrome, Safari */
-    box-shadow: 7px 5px 5px rgb(80,80,80);         /* New browsers */  
+    box-shadow: 7px 5px 5px rgb(80,80,80);
     width: 350px;
 }
 a { text-decoration: none; color: rgb(80,0,0); }
@@ -41,28 +39,18 @@ div.dirlinks a {
 <body>
 <h1><?php echo getcwd(); ?></h1>
 <?php
-$has_subs = false;
+print "<div class=\"dirlinks\">\n";
+print "<h2>Directories</h2>\n";
+print "<li><a href=\"../\">[..]</a></li>";
 foreach (glob("*") as $filename) {
     if (is_dir($filename) && !preg_match("/^\..*|.*private.*/", $filename)) {
-        $has_subs = true;
-        break;
+        print "<li><a href=\"$filename\">[$filename]</a></li>";
     }
 }
-if ($has_subs) {
-    print "<div class=\"dirlinks\">\n";
-    print "<h2>Directories</h2>\n";
-    print "<a href=\"../\">[parent]</a> ";
-    foreach (glob("*") as $filename) {
-        if (is_dir($filename) && !preg_match("/^\..*|.*private.*/", $filename)) {
-            print "<a href=\"$filename\">[$filename]</a>";
-        }
-    }
-    print "</div>";
-}
-
-foreach (array("00_README.txt", "README.txt", "readme.txt") as $readme) {
-    if (file_exists($readme)) {
-        print "<pre class='readme'>\n"; readfile($readme); print "</pre>";
+print "</div>";
+foreach (array("info.txt") as $info) {
+    if (file_exists($info)) {
+        print "<pre class='info'>\n"; readfile($info); print "</pre>";
     }
 }
 ?>
@@ -75,7 +63,7 @@ $displayed = array();
 if ($_GET['noplots']) {
     print "Plots will not be displayed.\n";
 } else {
-    $other_exts = array('.pdf', '.cxx', '.eps', '.root', '.txt', '.dir', '.info');
+    $other_exts = array('.pdf', '.cxx', '.eps', '.root', '.txt', '.dat');
     $filenames = glob("*.png"); sort($filenames);
     foreach ($filenames as $filename) {
         if (isset($_GET['match'])) {
@@ -104,6 +92,7 @@ if ($_GET['noplots']) {
 }
 ?>
 </div>
+<!--
 <div style="display: block; clear:both;">
 <h2><a name="files">Other files</a></h2>
 <ul>
@@ -127,5 +116,6 @@ foreach (glob("*") as $filename) {
 ?>
 </ul>
 </div>
+-->
 </body>
 </html>
