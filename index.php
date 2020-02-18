@@ -53,6 +53,14 @@ foreach (array("info.txt") as $info) {
         print "<pre class='info'>\n"; readfile($info); print "</pre>";
     }
 }
+print "<div class=\"dirlinks\">\n";
+print "<h2>IPyNb Notebook Output</h2>\n";
+foreach (glob("*.html") as $filename) {
+    if (!preg_match("/^\..*|.*private.*/", $filename)) {
+        print "<li><a href=\"$filename\"  target=\"_blank\">$filename</a></li>";
+    }
+}
+print "</div>";
 ?>
 
 <h2><a name="plots">Plots</a></h2>
