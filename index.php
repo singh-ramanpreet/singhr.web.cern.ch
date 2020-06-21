@@ -1,3 +1,8 @@
+<?php
+$pwd = preg_replace("|^\/((\w)\w+)\/|","/eos/user/$2/$1/www/", $_SERVER["REQUEST_URI"]);
+$pwd = preg_replace("(\?.*)", "", $pwd);
+chdir($pwd);
+?>
 <html>
 <head>
 <title><?php echo getcwd(); ?></title>
@@ -53,14 +58,6 @@ foreach (array("info.txt") as $info) {
         print "<pre class='info'>\n"; readfile($info); print "</pre>";
     }
 }
-print "<div class=\"dirlinks\">\n";
-print "<h2>IPyNb Notebook Output</h2>\n";
-foreach (glob("*.html") as $filename) {
-    if (!preg_match("/^\..*|.*private.*/", $filename)) {
-        print "<li><a href=\"$filename\"  target=\"_blank\">$filename</a></li>";
-    }
-}
-print "</div>";
 ?>
 
 <h2><a name="plots">Plots</a></h2>
@@ -100,8 +97,8 @@ if ($_GET['noplots']) {
 }
 ?>
 </div>
-<!--
-<div style="display: block; clear:both;">
+
+<div class="dirlinks", style="display: block; clear:both;">
 <h2><a name="files">Other files</a></h2>
 <ul>
 <?
@@ -115,7 +112,9 @@ foreach (glob("*") as $filename) {
              }
         }
         if (is_dir($filename)) {
-            print "<li>[DIR] <a href=\"$filename\">$filename</a></li>";
+
+        } else if ($filename == "index.php") {
+
         } else {
             print "<li><a href=\"$filename\">$filename</a></li>";
         }
@@ -124,6 +123,6 @@ foreach (glob("*") as $filename) {
 ?>
 </ul>
 </div>
--->
+
 </body>
 </html>
