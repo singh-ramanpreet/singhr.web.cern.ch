@@ -1,5 +1,5 @@
 <?php
-$pwd = preg_replace("|^\/((\w)\w+)\/|","/eos/user/$2/$1/www/", $_SERVER["REQUEST_URI"]);
+$pwd = "/eos/user/s/singhr/www".$_SERVER["REQUEST_URI"];
 $pwd = preg_replace("(\?.*)", "", $pwd);
 chdir($pwd);
 ?>
